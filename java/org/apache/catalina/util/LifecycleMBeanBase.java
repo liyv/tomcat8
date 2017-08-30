@@ -58,6 +58,7 @@ public abstract class LifecycleMBeanBase extends LifecycleBase
         if (oname == null) {
             //2个null(key,guard)
             //如果key为null，则使用上下文类加载器或者返回默认的Registry
+            //guard,防止不信任的组件访问Registry
             mserver = Registry.getRegistry(null, null).getMBeanServer();
 
             oname = register(this, getObjectNameKeyProperties());
