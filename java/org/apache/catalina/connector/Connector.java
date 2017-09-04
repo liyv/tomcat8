@@ -996,6 +996,7 @@ public class Connector extends LifecycleMBeanBase  {
         }
 
         try {
+            //这里到底是做什么的
             protocolHandler.init();
         } catch (Exception e) {
             throw new LifecycleException(
@@ -1021,6 +1022,7 @@ public class Connector extends LifecycleMBeanBase  {
         setState(LifecycleState.STARTING);
 
         try {
+            //这里应该是处理请求的关键
             protocolHandler.start();
         } catch (Exception e) {
             String errPrefix = "";

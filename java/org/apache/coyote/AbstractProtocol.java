@@ -625,6 +625,8 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
             getLog().info(sm.getString("abstractProtocolHandler.start",
                     getName()));
         try {
+            //首先初始化endpoint，serverSocket绑定地址
+            //Start the NIO endpoint, creating acceptor, poller threads
             endpoint.start();
         } catch (Exception ex) {
             getLog().error(sm.getString("abstractProtocolHandler.startError",

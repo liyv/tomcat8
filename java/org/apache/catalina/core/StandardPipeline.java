@@ -173,6 +173,7 @@ public class StandardPipeline extends LifecycleBase
     protected synchronized void startInternal() throws LifecycleException {
 
         // Start the Valves in our pipeline (including the basic), if any
+        //启动 所有的阀
         Valve current = first;
         if (current == null) {
             current = basic;

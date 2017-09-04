@@ -917,16 +917,19 @@ public abstract class ContainerBase extends LifecycleMBeanBase
         // Start our subordinate components, if any
         logger = null;
         getLogger();
+        //集群？是什么
         Cluster cluster = getClusterInternal();
         if (cluster instanceof Lifecycle) {
             ((Lifecycle) cluster).start();
         }
+        //Realm又是什么
         Realm realm = getRealmInternal();
         if (realm instanceof Lifecycle) {
             ((Lifecycle) realm).start();
         }
 
         // Start our child containers, if any
+        //是使用了线程池来启动子容器吗？
         Container children[] = findChildren();
         List<Future<Void>> results = new ArrayList<>();
         for (int i = 0; i < children.length; i++) {
@@ -949,6 +952,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
         }
 
         // Start the Valves in our pipeline (including the basic), if any
+        //启动管道，管道接着启动阀
         if (pipeline instanceof Lifecycle)
             ((Lifecycle) pipeline).start();
 
@@ -956,6 +960,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
         setState(LifecycleState.STARTING);
 
         // Start our thread
+        //启动周期性任务
         threadStart();
 
     }
@@ -1134,7 +1139,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
 
         if (!getState().isAvailable())
             return;
-
+        //集群
         Cluster cluster = getClusterInternal();
         if (cluster != null) {
             try {
@@ -1152,6 +1157,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
                 log.warn(sm.getString("containerBase.backgroundProcess.realm", realm), e);
             }
         }
+        //阀
         Valve current = pipeline.getFirst();
         while (current != null) {
             try {
@@ -1385,6 +1391,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
                     // is performed under the web app's class loader
                     originalClassLoader = ((Context) container).bind(false, null);
                 }
+                //调用容器的后台任务,周期性执行
                 container.backgroundProcess();
                 Container[] children = container.findChildren();
                 for (int i = 0; i < children.length; i++) {
