@@ -63,6 +63,7 @@ public abstract class AbstractProcessorLight implements Processor {
                 // Extra write event likely after async, ignore
                 state = SocketState.LONG;
             } else if (status == SocketEvent.OPEN_READ){
+                //Http11Processor
                 state = service(socketWrapper);
             } else {
                 // Default to closing the socket if the SocketEvent passed in

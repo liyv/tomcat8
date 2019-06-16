@@ -1135,7 +1135,7 @@ public class ContextConfig implements LifecycleListener {
             processServletContainerInitializers();
         }
 
-        if  (!webXml.isMetadataComplete() || typeInitializerMap.size() > 0) {
+        if  (!webXml.isMetadataComplete() || typeInitializerMap.size() > 0) {//false
             // Step 4. Process /WEB-INF/classes for annotations and
             // @HandlesTypes matches
             Map<String,JavaClassCacheEntry> javaClassCache = new HashMap<>();
@@ -1168,7 +1168,7 @@ public class ContextConfig implements LifecycleListener {
             javaClassCache.clear();
         }
 
-        if (!webXml.isMetadataComplete()) {
+        if (!webXml.isMetadataComplete()) {//false
             // Step 6. Merge web-fragment.xml files into the main web.xml
             // file.
             if (ok) {
@@ -1240,89 +1240,89 @@ public class ContextConfig implements LifecycleListener {
         // As far as possible, process in alphabetical order so it is easy to
         // check everything is present
         // Some validation depends on correct public ID
-        context.setPublicId(webxml.getPublicId());
+        context.setPublicId(webxml.getPublicId());//null
 
         // Everything else in order
-        context.setEffectiveMajorVersion(webxml.getMajorVersion());
-        context.setEffectiveMinorVersion(webxml.getMinorVersion());
+        context.setEffectiveMajorVersion(webxml.getMajorVersion());//3
+        context.setEffectiveMinorVersion(webxml.getMinorVersion());//1
 
-        for (Entry<String, String> entry : webxml.getContextParams().entrySet()) {
+        for (Entry<String, String> entry : webxml.getContextParams().entrySet()) {//size=0
             context.addParameter(entry.getKey(), entry.getValue());
         }
         context.setDenyUncoveredHttpMethods(
-                webxml.getDenyUncoveredHttpMethods());
-        context.setDisplayName(webxml.getDisplayName());
-        context.setDistributable(webxml.isDistributable());
-        for (ContextLocalEjb ejbLocalRef : webxml.getEjbLocalRefs().values()) {
+                webxml.getDenyUncoveredHttpMethods());//false
+        context.setDisplayName(webxml.getDisplayName());//Welcome to Tomcat
+        context.setDistributable(webxml.isDistributable());//false
+        for (ContextLocalEjb ejbLocalRef : webxml.getEjbLocalRefs().values()) {//size=0
             context.getNamingResources().addLocalEjb(ejbLocalRef);
         }
-        for (ContextEjb ejbRef : webxml.getEjbRefs().values()) {
+        for (ContextEjb ejbRef : webxml.getEjbRefs().values()) {//size=0
             context.getNamingResources().addEjb(ejbRef);
         }
-        for (ContextEnvironment environment : webxml.getEnvEntries().values()) {
+        for (ContextEnvironment environment : webxml.getEnvEntries().values()) {//size=0
             context.getNamingResources().addEnvironment(environment);
         }
-        for (ErrorPage errorPage : webxml.getErrorPages().values()) {
+        for (ErrorPage errorPage : webxml.getErrorPages().values()) {//size=0
             context.addErrorPage(errorPage);
         }
-        for (FilterDef filter : webxml.getFilters().values()) {
+        for (FilterDef filter : webxml.getFilters().values()) {//size=0
             if (filter.getAsyncSupported() == null) {
                 filter.setAsyncSupported("false");
             }
             context.addFilterDef(filter);
         }
-        for (FilterMap filterMap : webxml.getFilterMappings()) {
+        for (FilterMap filterMap : webxml.getFilterMappings()) {//size=0
             context.addFilterMap(filterMap);
         }
-        context.setJspConfigDescriptor(webxml.getJspConfigDescriptor());
-        for (String listener : webxml.getListeners()) {
+        context.setJspConfigDescriptor(webxml.getJspConfigDescriptor());//null
+        for (String listener : webxml.getListeners()) {//size=0
             context.addApplicationListener(listener);
         }
         for (Entry<String, String> entry :
-                webxml.getLocaleEncodingMappings().entrySet()) {
+                webxml.getLocaleEncodingMappings().entrySet()) {//size=0
             context.addLocaleEncodingMappingParameter(entry.getKey(),
                     entry.getValue());
         }
         // Prevents IAE
-        if (webxml.getLoginConfig() != null) {
+        if (webxml.getLoginConfig() != null) {//false
             context.setLoginConfig(webxml.getLoginConfig());
         }
         for (MessageDestinationRef mdr :
-                webxml.getMessageDestinationRefs().values()) {
+                webxml.getMessageDestinationRefs().values()) {//size=0
             context.getNamingResources().addMessageDestinationRef(mdr);
         }
 
         // messageDestinations were ignored in Tomcat 6, so ignore here
 
-        context.setIgnoreAnnotations(webxml.isMetadataComplete());
+        context.setIgnoreAnnotations(webxml.isMetadataComplete());//true
         for (Entry<String, String> entry :
-                webxml.getMimeMappings().entrySet()) {
+                webxml.getMimeMappings().entrySet()) {//size=1011
             context.addMimeMapping(entry.getKey(), entry.getValue());
         }
         // Name is just used for ordering
         for (ContextResourceEnvRef resource :
-                webxml.getResourceEnvRefs().values()) {
+                webxml.getResourceEnvRefs().values()) {//size=0
             context.getNamingResources().addResourceEnvRef(resource);
         }
-        for (ContextResource resource : webxml.getResourceRefs().values()) {
+        for (ContextResource resource : webxml.getResourceRefs().values()) {//size=0
             context.getNamingResources().addResource(resource);
         }
         boolean allAuthenticatedUsersIsAppRole =
                 webxml.getSecurityRoles().contains(
-                        SecurityConstraint.ROLE_ALL_AUTHENTICATED_USERS);
-        for (SecurityConstraint constraint : webxml.getSecurityConstraints()) {
+                        SecurityConstraint.ROLE_ALL_AUTHENTICATED_USERS);//false
+        for (SecurityConstraint constraint : webxml.getSecurityConstraints()) {//size=0
             if (allAuthenticatedUsersIsAppRole) {
                 constraint.treatAllAuthenticatedUsersAsApplicationRole();
             }
             context.addConstraint(constraint);
         }
-        for (String role : webxml.getSecurityRoles()) {
+        for (String role : webxml.getSecurityRoles()) {//size=0
             context.addSecurityRole(role);
         }
-        for (ContextService service : webxml.getServiceRefs().values()) {
+        for (ContextService service : webxml.getServiceRefs().values()) {//size=0
             context.getNamingResources().addService(service);
         }
-        for (ServletDef servlet : webxml.getServlets().values()) {
+        for (ServletDef servlet : webxml.getServlets().values()) {//size=2;DefaultServlet,JspServlet
             Wrapper wrapper = context.createWrapper();
             // Description is ignored
             // Display name is ignored
@@ -1336,7 +1336,7 @@ public class ContextConfig implements LifecycleListener {
             if (servlet.getEnabled() != null) {
                 wrapper.setEnabled(servlet.getEnabled().booleanValue());
             }
-            wrapper.setName(servlet.getServletName());
+            wrapper.setName(servlet.getServletName());//default
             Map<String,String> params = servlet.getParameterMap();
             for (Entry<String, String> entry : params.entrySet()) {
                 wrapper.addInitParameter(entry.getKey(), entry.getValue());
@@ -1347,9 +1347,9 @@ public class ContextConfig implements LifecycleListener {
                 wrapper.addSecurityReference(
                         roleRef.getName(), roleRef.getLink());
             }
-            wrapper.setServletClass(servlet.getServletClass());
+            wrapper.setServletClass(servlet.getServletClass());//org.apache.catalina.servlets.DefaultServlet
             MultipartDef multipartdef = servlet.getMultipartDef();
-            if (multipartdef != null) {
+            if (multipartdef != null) {//false
                 if (multipartdef.getMaxFileSize() != null &&
                         multipartdef.getMaxRequestSize()!= null &&
                         multipartdef.getFileSizeThreshold() != null) {
@@ -1364,11 +1364,11 @@ public class ContextConfig implements LifecycleListener {
                             multipartdef.getLocation()));
                 }
             }
-            if (servlet.getAsyncSupported() != null) {
+            if (servlet.getAsyncSupported() != null) {//false
                 wrapper.setAsyncSupported(
                         servlet.getAsyncSupported().booleanValue());
             }
-            wrapper.setOverridable(servlet.isOverridable());
+            wrapper.setOverridable(servlet.isOverridable());//true
             context.addChild(wrapper);
         }
         for (Entry<String, String> entry :
@@ -1376,13 +1376,13 @@ public class ContextConfig implements LifecycleListener {
             context.addServletMappingDecoded(entry.getKey(), entry.getValue());
         }
         SessionConfig sessionConfig = webxml.getSessionConfig();
-        if (sessionConfig != null) {
-            if (sessionConfig.getSessionTimeout() != null) {
+        if (sessionConfig != null) {//true
+            if (sessionConfig.getSessionTimeout() != null) {//true
                 context.setSessionTimeout(
                         sessionConfig.getSessionTimeout().intValue());
             }
             SessionCookieConfig scc =
-                context.getServletContext().getSessionCookieConfig();
+                context.getServletContext().getSessionCookieConfig();//ApplicationSessionCookieConfig
             scc.setName(sessionConfig.getCookieName());
             scc.setDomain(sessionConfig.getCookieDomain());
             scc.setPath(sessionConfig.getCookiePath());
@@ -1453,12 +1453,12 @@ public class ContextConfig implements LifecycleListener {
     private WebXml getDefaultWebXmlFragment(WebXmlParser webXmlParser) {
 
         // Host should never be null
-        Host host = (Host) context.getParent();
+        Host host = (Host) context.getParent();//StandardEngine[Catalina].StandardHost[localhost]
 
-        DefaultWebXmlCacheEntry entry = hostWebXmlCache.get(host);
+        DefaultWebXmlCacheEntry entry = hostWebXmlCache.get(host);//null
 
-        InputSource globalWebXml = getGlobalWebXmlSource();
-        InputSource hostWebXml = getHostWebXmlSource();
+        InputSource globalWebXml = getGlobalWebXmlSource();//file:/D:/software/sourceCode/apache-tomcat-8.5.15-src/conf/web.xml
+        InputSource hostWebXml = getHostWebXmlSource();//null
 
         long globalTimeStamp = 0;
         long hostTimeStamp = 0;
@@ -1483,7 +1483,7 @@ public class ContextConfig implements LifecycleListener {
             }
         }
 
-        if (hostWebXml != null) {
+        if (hostWebXml != null) {//false
             URLConnection uc = null;
             try {
                 URL url = new URL(hostWebXml.getSystemId());
@@ -1504,7 +1504,7 @@ public class ContextConfig implements LifecycleListener {
         }
 
         if (entry != null && entry.getGlobalTimeStamp() == globalTimeStamp &&
-                entry.getHostTimeStamp() == hostTimeStamp) {
+                entry.getHostTimeStamp() == hostTimeStamp) {//false
             InputSourceUtil.close(globalWebXml);
             InputSourceUtil.close(hostWebXml);
             return entry.getWebXml();
@@ -1513,10 +1513,10 @@ public class ContextConfig implements LifecycleListener {
         // Parsing global web.xml is relatively expensive. Use a sync block to
         // make sure it only happens once. Use the pipeline since a lock will
         // already be held on the host by another thread
-        synchronized (host.getPipeline()) {
-            entry = hostWebXmlCache.get(host);
+        synchronized (host.getPipeline()) {//Pipeline[StandardEngine[Catalina].StandardHost[localhost]]StandardHost.StandardPipline
+            entry = hostWebXmlCache.get(host);//null
             if (entry != null && entry.getGlobalTimeStamp() == globalTimeStamp &&
-                    entry.getHostTimeStamp() == hostTimeStamp) {
+                    entry.getHostTimeStamp() == hostTimeStamp) {//false
                 return entry.getWebXml();
             }
 

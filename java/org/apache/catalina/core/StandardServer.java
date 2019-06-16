@@ -790,6 +790,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
 
         // Start our defined Services
         synchronized (servicesLock) {
+            //size =
             for (int i = 0; i < services.length; i++) {
                 services[i].start();
             }
@@ -826,7 +827,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
      */
     @Override
     protected void initInternal() throws LifecycleException {
-
+        //注册JMX
         super.initInternal();
 
         // Register global String cache
@@ -845,7 +846,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
 
         // Populate the extension validator with JARs from common and shared
         // class loaders
-        if (getCatalina() != null) {
+        if (getCatalina() != null) {//true
             ClassLoader cl = getCatalina().getParentClassLoader();
             // Walk the class loader hierarchy. Stop at the system class loader.
             // This will add the shared (if present) and common class loaders

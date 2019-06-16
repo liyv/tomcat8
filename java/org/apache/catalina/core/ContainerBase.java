@@ -720,7 +720,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
      */
     @Override
     public void addChild(Container child) {
-        if (Globals.IS_SECURITY_ENABLED) {
+        if (Globals.IS_SECURITY_ENABLED) {//false
             PrivilegedAction<Void> dp =
                 new PrivilegedAddChild(child);
             AccessController.doPrivileged(dp);
@@ -730,7 +730,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
     }
 
     private void addChildInternal(Container child) {
-
+        //StandardHost.add(StandardContext;StandardEngine[Cataline].add(StandardHost[localhost];StandardContext[].add(StandardWrapper[default]
         if( log.isDebugEnabled() )
             log.debug("Add child " + child + " " + this);
         synchronized(children) {
@@ -739,13 +739,13 @@ public abstract class ContainerBase extends LifecycleMBeanBase
                                                    child.getName() +
                                                    "' is not unique");
             child.setParent(this);  // May throw IAE
-            children.put(child.getName(), child);
+            children.put(child.getName(), child);//0:child.getName="";
         }
 
         // Start child
         // Don't do this inside sync block - start can be a slow process and
         // locking the children object can cause problems elsewhere
-        try {
+        try {//false
             if ((getState().isAvailable() ||
                     LifecycleState.STARTING_PREP.equals(getState())) &&
                     startChildren) {
@@ -954,7 +954,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
         // Start the Valves in our pipeline (including the basic), if any
         //启动管道，管道接着启动阀
         if (pipeline instanceof Lifecycle)
-            ((Lifecycle) pipeline).start();
+            ((Lifecycle) pipeline).start();//standardwrappervalve
 
 
         setState(LifecycleState.STARTING);
@@ -1124,8 +1124,8 @@ public abstract class ContainerBase extends LifecycleMBeanBase
      *  associated with a different Container
      */
     public synchronized void addValve(Valve valve) {
-
-        pipeline.addValve(valve);
+        //StandardHost 下的 AccessLogValve
+        pipeline.addValve(valve);//StandardHost:有个basic Valve:StandardHostValve
     }
 
 

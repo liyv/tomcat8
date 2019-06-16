@@ -224,7 +224,7 @@ public class Http11Processor extends AbstractProcessor {
      */
     private final Map<String,UpgradeProtocol> httpUpgradeProtocols;
 
-
+    //maxHttpHeaderSize 最大8K 8*1024=8192  ++
     public Http11Processor(int maxHttpHeaderSize, AbstractEndpoint<?> endpoint,int maxTrailerSize,
             Set<String> allowedTrailerHeaders, int maxExtensionSize, int maxSwallowSize,
             Map<String,UpgradeProtocol> httpUpgradeProtocols, boolean sendReasonPhrase) {
@@ -239,6 +239,7 @@ public class Http11Processor extends AbstractProcessor {
         response.setOutputBuffer(outputBuffer);
 
         // Create and add the identity filters.
+        //作用是什么
         inputBuffer.addFilter(new IdentityInputFilter(maxSwallowSize));
         outputBuffer.addFilter(new IdentityOutputFilter());
 
@@ -656,7 +657,7 @@ public class Http11Processor extends AbstractProcessor {
         }
     }
 
-
+    //从AbstractProcessorLight的process()->到这
     @Override
     public SocketState service(SocketWrapperBase<?> socketWrapper)
         throws IOException {
@@ -1010,17 +1011,17 @@ public class Http11Processor extends AbstractProcessor {
         }
 
         // Check user-agent header
-        if (restrictedUserAgents != null && (http11 || keepAlive)) {
-            MessageBytes userAgentValueMB = headers.getValue("user-agent");
-            // Check in the restricted list, and adjust the http11
-            // and keepAlive flags accordingly
-            if(userAgentValueMB != null) {
-                String userAgentValue = userAgentValueMB.toString();
-                if (restrictedUserAgents != null &&
-                        restrictedUserAgents.matcher(userAgentValue).matches()) {
-                    http11 = false;
-                    keepAlive = false;
-                }
+                if (restrictedUserAgents != null && (http11 || keepAlive)) {
+                    MessageBytes userAgentValueMB = headers.getValue("user-agent");
+                    // Check in the restricted list, and adjust the http11
+                    // and keepAlive flags accordingly
+                    if(userAgentValueMB != null) {
+                        String userAgentValue = userAgentValueMB.toString();
+                        if (restrictedUserAgents != null &&
+                                restrictedUserAgents.matcher(userAgentValue).matches()) {
+                            http11 = false;
+                            keepAlive = false;
+                        }
             }
         }
 

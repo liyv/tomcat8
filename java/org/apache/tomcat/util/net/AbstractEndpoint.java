@@ -169,6 +169,7 @@ public abstract class AbstractEndpoint<S> {
 
     /**
      * counter for nr of connections handled by an endpoint
+     * 在NioEndpoint startinternal()中调用initializeConnectionLatch() 一次
      */
     private volatile LimitLatch connectionLimitLatch = null;
 
@@ -743,6 +744,7 @@ public abstract class AbstractEndpoint<S> {
 
 
     public void createExecutor() {
+        //在NioEndpoint startInternal()中调用一次
         internalExecutor = true;
         TaskQueue taskqueue = new TaskQueue();
         TaskThreadFactory tf = new TaskThreadFactory(getName() + "-exec-", daemon, getThreadPriority());
@@ -923,6 +925,7 @@ public abstract class AbstractEndpoint<S> {
             }
             SocketProcessorBase<S> sc = processorCache.pop();
             if (sc == null) {
+                //SocketProcessor
                 sc = createSocketProcessor(socketWrapper, event);
             } else {
                 sc.reset(socketWrapper, event);
@@ -982,11 +985,12 @@ public abstract class AbstractEndpoint<S> {
     }
 
     protected final void startAcceptorThreads() {
+        //获取线程数量，=1
         int count = getAcceptorThreadCount();
-        acceptors = new Acceptor[count];
+        acceptors = new Acceptor[count];//1个Acceptor
 
         for (int i = 0; i < count; i++) {
-            acceptors[i] = createAcceptor();
+            acceptors[i] = createAcceptor();//回到实现类，NioEndpoint中的具体实现
             String threadName = getName() + "-Acceptor-" + i;
             acceptors[i].setThreadName(threadName);
             Thread t = new Thread(acceptors[i], threadName);
@@ -1042,6 +1046,7 @@ public abstract class AbstractEndpoint<S> {
 
     protected abstract Log getLog();
 
+    //在NioEndpoint startinternal()中调用一次
     protected LimitLatch initializeConnectionLatch() {
         if (maxConnections==-1) return null;
         if (connectionLimitLatch==null) {

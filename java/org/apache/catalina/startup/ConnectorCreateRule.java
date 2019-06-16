@@ -61,6 +61,7 @@ public class ConnectorCreateRule extends Rule {
         if ( attributes.getValue("executor")!=null ) {
             ex = svc.getExecutor(attributes.getValue("executor"));
         }
+        //什么样的con Connector[HTTP/1.1-auto-1];Connecot[AJP/1.3-auto-2]
         Connector con = new Connector(attributes.getValue("protocol"));
         if (ex != null) {
             setExecutor(con, ex);

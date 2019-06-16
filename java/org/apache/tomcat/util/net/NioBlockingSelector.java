@@ -54,7 +54,9 @@ public class NioBlockingSelector {
     }
 
     public void open(Selector selector) {
+        //Using a shared selector for servlet write/read
         sharedSelector = selector;
+        //阻塞线程，当socketchannel可用时？用于唤醒其他selector？
         poller = new BlockPoller();
         poller.selector = sharedSelector;
         poller.setDaemon(true);
@@ -213,6 +215,7 @@ public class NioBlockingSelector {
 
     protected static class BlockPoller extends Thread {
         protected volatile boolean run = true;
+        //Using a shared selector for servlet write/read
         protected Selector selector = null;
         protected final SynchronizedQueue<Runnable> events =
                 new SynchronizedQueue<>();
@@ -328,9 +331,12 @@ public class NioBlockingSelector {
         public void run() {
             while (run) {
                 try {
+                    //处理队列的任务
                     events();
                     int keyCount = 0;
                     try {
+                        //这里的意义是什么，一个原子数？
+                        //i有大于0的可能吗
                         int i = wakeupCounter.get();
                         if (i>0)
                             keyCount = selector.selectNow();

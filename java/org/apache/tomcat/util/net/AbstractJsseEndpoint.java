@@ -78,7 +78,7 @@ public abstract class AbstractJsseEndpoint<S> extends AbstractEndpoint<S> {
 
 
     protected void initialiseSsl() throws Exception {
-        if (isSSLEnabled()) {
+        if (isSSLEnabled()) {//false
             sslImplementation = SSLImplementation.getInstance(getSslImplementationName());
 
             for (SSLHostConfig sslHostConfig : sslHostConfigs.values()) {

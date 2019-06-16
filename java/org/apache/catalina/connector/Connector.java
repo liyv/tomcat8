@@ -964,7 +964,7 @@ public class Connector extends LifecycleMBeanBase  {
 
     @Override
     protected void initInternal() throws LifecycleException {
-
+        //首先是:Connector[HTTP/1.1-8080]
         super.initInternal();
 
         // Initialize adapter
@@ -974,16 +974,16 @@ public class Connector extends LifecycleMBeanBase  {
         protocolHandler.setAdapter(adapter);
 
         // Make sure parseBodyMethodsSet has a default
-        if( null == parseBodyMethodsSet ) {
+        if( null == parseBodyMethodsSet ) {//size=1,POST
             setParseBodyMethods(getParseBodyMethods());
         }
-
+        //FALSE
         if (protocolHandler.isAprRequired() &&
                 !AprLifecycleListener.isAprAvailable()) {
             throw new LifecycleException(
                     sm.getString("coyoteConnector.protocolHandlerNoApr",
                             getProtocolHandlerClassName()));
-        }
+        }//false
         if (AprLifecycleListener.isAprAvailable() &&
                 AprLifecycleListener.getUseOpenSSL() &&
                 protocolHandler instanceof AbstractHttp11JsseProtocol) {
@@ -997,6 +997,7 @@ public class Connector extends LifecycleMBeanBase  {
 
         try {
             //这里到底是做什么的
+            //
             protocolHandler.init();
         } catch (Exception e) {
             throw new LifecycleException(
@@ -1023,6 +1024,7 @@ public class Connector extends LifecycleMBeanBase  {
 
         try {
             //这里应该是处理请求的关键
+            //Http11NioProtocol  AbstractProtocol
             protocolHandler.start();
         } catch (Exception e) {
             String errPrefix = "";

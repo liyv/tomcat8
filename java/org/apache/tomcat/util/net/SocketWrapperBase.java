@@ -300,7 +300,7 @@ public abstract class SocketWrapperBase<E> {
         return remaining;
     }
 
-
+    //填充buffer
     protected int populateReadBuffer(ByteBuffer to) {
         // Is there enough data in the read buffer to satisfy this request?
         // Copy what data there is in the read buffer to the byte array

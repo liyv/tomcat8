@@ -42,7 +42,7 @@ public class NioChannel implements ByteChannel {
     protected SocketChannel sc = null;
     protected SocketWrapperBase<NioChannel> socketWrapper = null;
 
-    protected final SocketBufferHandler bufHandler;
+    protected final SocketBufferHandler bufHandler;//在NioEndpoint 的setSocketOptions中实例化
 
     protected Poller poller;
 

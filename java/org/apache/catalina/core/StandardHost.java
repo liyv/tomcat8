@@ -725,7 +725,7 @@ public class StandardHost extends ContainerBase implements Host {
      */
     @Override
     public void addChild(Container child) {
-
+        //child:StandardContext
         child.addLifecycleListener(new MemoryLeakTrackingListener());
 
         if (!(child instanceof Context))
@@ -869,6 +869,10 @@ public class StandardHost extends ContainerBase implements Host {
                         errorValve), t);
             }
         }
+        //cluster
+        //realm
+        //children
+        //pipeline
         super.startInternal();
     }
 

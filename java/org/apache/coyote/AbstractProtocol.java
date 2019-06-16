@@ -566,18 +566,18 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
             getLog().info(sm.getString("abstractProtocolHandler.init",
                     getName()));
 
-        if (oname == null) {
+        if (oname == null) {//null
             // Component not pre-registered so register it
-            oname = createObjectName();
+            oname = createObjectName();//Catalina:type=ProtocolHandler,port=8080
             if (oname != null) {
                 Registry.getRegistry(null, null).registerComponent(this, oname,
                     null);
             }
         }
 
-        if (this.domain != null) {
+        if (this.domain != null) {//"Catalina"
             try {
-                tpOname = new ObjectName(domain + ":type=ThreadPool,name=" + getName());
+                tpOname = new ObjectName(domain + ":type=ThreadPool,name=" + getName());//Catalina:type=ThreadPool,name="http-nio-8080"
                 Registry.getRegistry(null, null).registerComponent(endpoint, tpOname, null);
             } catch (Exception e) {
                 getLog().error(sm.getString(
@@ -585,7 +585,7 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
                         tpOname, getName()), e);
             }
             rgOname=new ObjectName(domain +
-                    ":type=GlobalRequestProcessor,name=" + getName());
+                    ":type=GlobalRequestProcessor,name=" + getName());//Catalina:type=GlobalRequestProcessor,name="http-nio-8080"
             Registry.getRegistry(null, null).registerComponent(
                     getHandler().getGlobal(), rgOname, null );
 
@@ -606,7 +606,7 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
             }
         }
 
-        String endpointName = getName();
+        String endpointName = getName();//"http-nio-8080"
         endpoint.setName(endpointName.substring(1, endpointName.length()-1));
 
         try {
@@ -741,7 +741,7 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
 
 
     // ------------------------------------------- Connection handler base class
-
+    //这很重要
     protected static class ConnectionHandler<S> implements AbstractEndpoint.Handler<S> {
 
         private final AbstractProtocol<S> proto;
@@ -785,7 +785,8 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
             }
 
             S socket = wrapper.getSocket();
-
+            //从connections Map中找到和这个socket关联的processor?记录这个socket的信息？
+            //Processor 的具体实例是什么
             Processor processor = connections.get(socket);
             if (getLog().isDebugEnabled()) {
                 getLog().debug(sm.getString("abstractConnectionHandler.connectionsGet",
@@ -805,11 +806,15 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
 
             try {
                 if (processor == null) {
+                    //negotiatedProtocol的值是多少，为什么有这个值.协商协议，和HTTP/2有关
                     String negotiatedProtocol = wrapper.getNegotiatedProtocol();
                     if (negotiatedProtocol != null) {
+                        //getProtocol()--AbstractProtocol-->AbstractHttp11Protocol
                         UpgradeProtocol upgradeProtocol =
                                 getProtocol().getNegotiatedProtocol(negotiatedProtocol);
                         if (upgradeProtocol != null) {
+                            //Http2Protocol  --upgradeProtocol
+                            //UpgradeProcessorInternal  --processor
                             processor = upgradeProtocol.getProcessor(
                                     wrapper, getProtocol().getAdapter());
                         } else if (negotiatedProtocol.equals("http/1.1")) {
@@ -848,7 +853,9 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
                     }
                 }
                 if (processor == null) {
+                    //Http11Processor
                     processor = getProtocol().createProcessor();
+                    //注册的作用是什么
                     register(processor);
                 }
 
@@ -860,6 +867,8 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
 
                 SocketState state = SocketState.CLOSED;
                 do {
+                    //1.AbstractProcessorLight
+                    //或者2.升级版
                     state = processor.process(wrapper, status);
 
                     if (state == SocketState.UPGRADING) {
@@ -1063,8 +1072,9 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
             release(processor);
         }
 
-
+        //注册的作用是什么
         protected void register(Processor processor) {
+            //
             if (getProtocol().getDomain() != null) {
                 synchronized (this) {
                     try {

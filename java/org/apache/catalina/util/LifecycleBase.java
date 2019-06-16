@@ -60,6 +60,7 @@ public abstract class LifecycleBase implements Lifecycle {
      */
     @Override
     public void addLifecycleListener(LifecycleListener listener) {
+        //EngineConfig,HostConfig,ContextConfig
         lifecycleListeners.add(listener);
     }
 
@@ -98,7 +99,9 @@ public abstract class LifecycleBase implements Lifecycle {
 
     @Override
     public final synchronized void init() throws LifecycleException {
+        //state 代表什么 LifecycleState
         if (!state.equals(LifecycleState.NEW)) {
+            //
             invalidTransition(Lifecycle.BEFORE_INIT_EVENT);
         }
 
@@ -354,14 +357,14 @@ public abstract class LifecycleBase implements Lifecycle {
             throws LifecycleException {
         setStateInternal(state, data, true);
     }
-
+    //作用是什么？设置内部的状态？
     private synchronized void setStateInternal(LifecycleState state,
             Object data, boolean check) throws LifecycleException {
 
         if (log.isDebugEnabled()) {
             log.debug(sm.getString("lifecycleBase.setState", this, state));
         }
-
+        //check 代表什么
         if (check) {
             // Must have been triggered by one of the abstract methods (assume
             // code in this class is correct)
@@ -392,6 +395,7 @@ public abstract class LifecycleBase implements Lifecycle {
         this.state = state;
         String lifecycleEvent = state.getLifecycleEvent();
         if (lifecycleEvent != null) {
+            //这里有文章
             fireLifecycleEvent(lifecycleEvent, data);
         }
     }

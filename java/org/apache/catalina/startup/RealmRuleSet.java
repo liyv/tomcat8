@@ -92,7 +92,8 @@ public class RealmRuleSet extends RuleSetBase {
             addRuleInstances(digester, pattern.toString(), i == 0 ? "setRealm" : "addRealm");
         }
     }
-
+    //StandardEngine 和 realm 有关的
+    //
     private void addRuleInstances(Digester digester, String pattern, String methodName) {
         digester.addObjectCreate(pattern, null /* MUST be specified in the element */,
                 "className");

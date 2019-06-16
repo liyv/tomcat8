@@ -4859,7 +4859,7 @@ public class StandardContext extends ContainerBase
         if (!resources.getState().isAvailable()) {
             resources.start();
         }
-
+        //3   false
         if (effectiveMajorVersion >=3 && addWebinfClassesResources) {
             WebResource webinfClassesResource = resources.getResource(
                     "/WEB-INF/classes/META-INF/resources");
@@ -4992,7 +4992,7 @@ public class StandardContext extends ContainerBase
             resourcesStart();
         }
 
-        if (getLoader() == null) {
+        if (getLoader() == null) {//null
             WebappLoader webappLoader = new WebappLoader(getParentClassLoader());
             webappLoader.setDelegate(getDelegate());
             setLoader(webappLoader);
@@ -5004,7 +5004,7 @@ public class StandardContext extends ContainerBase
         }
 
         // Initialize character set mapper
-        getCharsetMapper();
+        getCharsetMapper();//"fr" -> "ISO-8859-1";"en" -> "ISO-8859-1"
 
         // Post work directory
         postWorkDirectory();
@@ -5019,20 +5019,20 @@ public class StandardContext extends ContainerBase
             dependencyCheck = false;
         }
 
-        if (!dependencyCheck) {
+        if (!dependencyCheck) {//de=true
             // do not make application available if dependency check fails
             ok = false;
         }
 
         // Reading the "catalina.useNaming" environment variable
-        String useNamingProperty = System.getProperty("catalina.useNaming");
+        String useNamingProperty = System.getProperty("catalina.useNaming");//true
         if ((useNamingProperty != null)
             && (useNamingProperty.equals("false"))) {
             useNaming = false;
         }
 
-        if (ok && isUseNaming()) {
-            if (getNamingContextListener() == null) {
+        if (ok && isUseNaming()) {//ok=true,isu=true
+            if (getNamingContextListener() == null) {//true
                 NamingContextListener ncl = new NamingContextListener();
                 ncl.setName(getNamingContextName());
                 ncl.setExceptionOnFailedWrite(getJndiExceptionOnFailedWrite());
@@ -5060,13 +5060,13 @@ public class StandardContext extends ContainerBase
                 // since the loader just started, the webapp classloader is now
                 // created.
                 setClassLoaderProperty("clearReferencesRmiTargets",
-                        getClearReferencesRmiTargets());
+                        getClearReferencesRmiTargets());//true
                 setClassLoaderProperty("clearReferencesStopThreads",
-                        getClearReferencesStopThreads());
+                        getClearReferencesStopThreads());//false
                 setClassLoaderProperty("clearReferencesStopTimerThreads",
-                        getClearReferencesStopTimerThreads());
+                        getClearReferencesStopTimerThreads());//false
                 setClassLoaderProperty("clearReferencesHttpClientKeepAliveThread",
-                        getClearReferencesHttpClientKeepAliveThread());
+                        getClearReferencesHttpClientKeepAliveThread());//true
 
                 // By calling unbindThread and bindThread in a row, we setup the
                 // current Thread CCL to be the webapp classloader
@@ -5078,7 +5078,7 @@ public class StandardContext extends ContainerBase
                 logger = null;
                 getLogger();
 
-                Realm realm = getRealmInternal();
+                Realm realm = getRealmInternal();//null
                 if(null != realm) {
                     if (realm instanceof Lifecycle) {
                         ((Lifecycle) realm).start();
@@ -5760,7 +5760,7 @@ public class StandardContext extends ContainerBase
 
         ClassLoader oldContextClassLoader = bind(false, null);
 
-        if (isUseNaming()) {
+        if (isUseNaming()) {//true
             try {
                 ContextBindings.bindThread(this, getNamingToken());
             } catch (NamingException e) {
@@ -6058,30 +6058,30 @@ public class StandardContext extends ContainerBase
     private void postWorkDirectory() {
 
         // Acquire (or calculate) the work directory path
-        String workDir = getWorkDir();
+        String workDir = getWorkDir();//null
         if (workDir == null || workDir.length() == 0) {
 
             // Retrieve our parent (normally a host) name
             String hostName = null;
             String engineName = null;
             String hostWorkDir = null;
-            Container parentHost = getParent();
+            Container parentHost = getParent();//StandardEngine[Catalina].StandardHost[localhost]
             if (parentHost != null) {
-                hostName = parentHost.getName();
+                hostName = parentHost.getName();//localhost
                 if (parentHost instanceof StandardHost) {
-                    hostWorkDir = ((StandardHost)parentHost).getWorkDir();
+                    hostWorkDir = ((StandardHost)parentHost).getWorkDir();//null
                 }
-                Container parentEngine = parentHost.getParent();
+                Container parentEngine = parentHost.getParent();//StandardEngine[Catalina]
                 if (parentEngine != null) {
-                   engineName = parentEngine.getName();
+                   engineName = parentEngine.getName();//Catalina
                 }
             }
-            if ((hostName == null) || (hostName.length() < 1))
+            if ((hostName == null) || (hostName.length() < 1))//false
                 hostName = "_";
-            if ((engineName == null) || (engineName.length() < 1))
+            if ((engineName == null) || (engineName.length() < 1))//false
                 engineName = "_";
 
-            String temp = getBaseName();
+            String temp = getBaseName();//ROOT
             if (temp.startsWith("/"))
                 temp = temp.substring(1);
             temp = temp.replace('/', '_');
@@ -6094,16 +6094,16 @@ public class StandardContext extends ContainerBase
                 workDir = "work" + File.separator + engineName +
                     File.separator + hostName + File.separator + temp;
             }
-            setWorkDir(workDir);
+            setWorkDir(workDir);//work\Catalina\localhost\ROOT
         }
 
         // Create this directory if necessary
         File dir = new File(workDir);
-        if (!dir.isAbsolute()) {
+        if (!dir.isAbsolute()) {//true
             String catalinaHomePath = null;
             try {
-                catalinaHomePath = getCatalinaBase().getCanonicalPath();
-                dir = new File(catalinaHomePath, workDir);
+                catalinaHomePath = getCatalinaBase().getCanonicalPath();//D:\software\sourceCode\apache-tomcat-8.5.15-src
+                dir = new File(catalinaHomePath, workDir);//D:\software\sourceCode\apache-tomcat-8.5.15-src\work\Catalina\localhost\ROOT
             } catch (IOException e) {
                 log.warn(sm.getString("standardContext.workCreateException",
                         workDir, catalinaHomePath, getName()), e);
@@ -6115,8 +6115,8 @@ public class StandardContext extends ContainerBase
         }
 
         // Set the appropriate servlet context attribute
-        if (context == null) {
-            getServletContext();
+        if (context == null) {//null
+            getServletContext();//ApplicationContextFacade
         }
         context.setAttribute(ServletContext.TEMPDIR, dir);
         context.setAttributeReadOnly(ServletContext.TEMPDIR);

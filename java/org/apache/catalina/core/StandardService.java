@@ -212,15 +212,15 @@ public class StandardService extends LifecycleMBeanBase implements Service {
      */
     @Override
     public void addConnector(Connector connector) {
-
+        //应该是有2个 connector 吧
         synchronized (connectorsLock) {
             connector.setService(this);
             Connector results[] = new Connector[connectors.length + 1];
             System.arraycopy(connectors, 0, results, 0, connectors.length);
             results[connectors.length] = connector;
-            connectors = results;
+            connectors = results;//Connector[HTTP/1.1-8080];Connector[AJP/1.3-8009]
 
-            if (getState().isAvailable()) {
+            if (getState().isAvailable()) {//false
                 try {
                     connector.start();
                 } catch (LifecycleException e) {
@@ -337,6 +337,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
      */
     @Override
     public void addExecutor(Executor ex) {
+        //会调用吗,什么时候调用
         synchronized (executors) {
             if (!executors.contains(ex)) {
                 executors.add(ex);
@@ -358,8 +359,9 @@ public class StandardService extends LifecycleMBeanBase implements Service {
      */
     @Override
     public Executor[] findExecutors() {
+        //
         synchronized (executors) {
-            Executor[] arr = new Executor[executors.size()];
+            Executor[] arr = new Executor[executors.size()];//size=0
             executors.toArray(arr);
             return arr;
         }
@@ -423,7 +425,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
                 engine.start();
             }
         }
-
+        //size
         synchronized (executors) {
             for (Executor executor: executors) {
                 executor.start();
@@ -434,6 +436,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
 
         // Start our defined Connectors second
         synchronized (connectorsLock) {
+            //size
             for (Connector connector: connectors) {
                 try {
                     // If it has already failed, don't try and start it
@@ -525,10 +528,10 @@ public class StandardService extends LifecycleMBeanBase implements Service {
      */
     @Override
     protected void initInternal() throws LifecycleException {
-
+        //注册 JMX
         super.initInternal();
 
-        if (engine != null) {
+        if (engine != null) {//StandardEngine[Cataline]
             engine.init();
         }
 
@@ -541,6 +544,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
         }
 
         // Initialize mapper listener
+        //
         mapperListener.init();
 
         // Initialize our defined Connectors

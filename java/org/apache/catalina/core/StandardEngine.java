@@ -143,9 +143,9 @@ public class StandardEngine extends ContainerBase implements Engine {
      * @param host The new default host
      */
     @Override
-    public void setDefaultHost(String host) {
-
-        String oldDefaultHost = this.defaultHost;
+    public void setDefaultHost(String host) {//localhost
+        //digester 解析 server.xml
+        String oldDefaultHost = this.defaultHost;//null
         if (host == null) {
             this.defaultHost = null;
         } else {
@@ -241,6 +241,10 @@ public class StandardEngine extends ContainerBase implements Engine {
         // one. This will create the default NullRealm if necessary.
         getRealm();
         super.initInternal();
+        //cluster=null
+        //realm=Realm[LockOutRealm]
+        //children=StandardEngine[Catalina].StandardHost[localhost]
+
     }
 
 
@@ -259,6 +263,10 @@ public class StandardEngine extends ContainerBase implements Engine {
             log.info( "Starting Servlet Engine: " + ServerInfo.getServerInfo());
 
         // Standard container startup
+        ////cluster
+        //realm
+        //children
+        //pipeline
         super.startInternal();
     }
 

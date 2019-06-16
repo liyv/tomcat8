@@ -339,6 +339,7 @@ public class Http11InputBuffer implements InputBuffer, ApplicationBufferHandler 
      * @return true if data is properly fed; false if no data is available
      * immediately and thread should be freed
      */
+    //keptAlive =false ++
     boolean parseRequestLine(boolean keptAlive) throws IOException {
 
         // check state
@@ -347,12 +348,14 @@ public class Http11InputBuffer implements InputBuffer, ApplicationBufferHandler 
         }
         //
         // Skipping blank lines
-        //
+        //什么情况下会小于2
         if (parsingRequestLinePhase < 2) {
             byte chr = 0;
             do {
 
                 // Read new bytes if needed
+                //byteBuffer 的作用到底是什么，在init(...)中初始化，还很大容量，
+                //初始化时 position=limit=0
                 if (byteBuffer.position() >= byteBuffer.limit()) {
                     if (keptAlive) {
                         // Haven't read any request data yet so use the keep-alive
@@ -694,22 +697,25 @@ public class Http11InputBuffer implements InputBuffer, ApplicationBufferHandler 
      *
      * @return <code>true</code> if more data was added to the input buffer
      *         otherwise <code>false</code>
+     * block false
      */
     private boolean fill(boolean block) throws IOException {
 
         if (parsingHeader) {
+            //这里是limit不是容量
             if (byteBuffer.limit() >= headerBufferSize) {
                 throw new IllegalArgumentException(sm.getString("iib.requestheadertoolarge.error"));
             }
         } else {
             byteBuffer.limit(end).position(end);
         }
-
+        //这里作用是什么
         byteBuffer.mark();
         if (byteBuffer.position() < byteBuffer.limit()) {
             byteBuffer.position(byteBuffer.limit());
         }
         byteBuffer.limit(byteBuffer.capacity());
+        //wrapper --NioSocketWrapper作用是什么
         int nRead = wrapper.read(block, byteBuffer);
         byteBuffer.limit(byteBuffer.position()).reset();
         if (nRead > 0) {

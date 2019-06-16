@@ -175,13 +175,13 @@ public class SocketProperties {
 
     public void setProperties(Socket socket) throws SocketException{
         if (rxBufSize != null)
-            socket.setReceiveBufferSize(rxBufSize.intValue());
+            socket.setReceiveBufferSize(rxBufSize.intValue());//接收的buffer大小
         if (txBufSize != null)
-            socket.setSendBufferSize(txBufSize.intValue());
+            socket.setSendBufferSize(txBufSize.intValue());//发送的buffer的大小
         if (ooBInline !=null)
-            socket.setOOBInline(ooBInline.booleanValue());
+            socket.setOOBInline(ooBInline.booleanValue());//这是什么
         if (soKeepAlive != null)
-            socket.setKeepAlive(soKeepAlive.booleanValue());
+            socket.setKeepAlive(soKeepAlive.booleanValue());//
         if (performanceConnectionTime != null && performanceLatency != null &&
                 performanceBandwidth != null)
             socket.setPerformancePreferences(

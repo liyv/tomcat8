@@ -83,7 +83,7 @@ public class ContextRuleSet extends RuleSetBase {
     public ContextRuleSet(String prefix, boolean create) {
         this.namespaceURI = null;
         this.prefix = prefix;
-        this.create = create;
+        this.create = create;//true
     }
 
 

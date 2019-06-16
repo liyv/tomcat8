@@ -53,7 +53,7 @@ public class NioSelectorPool {
     protected int maxSelectors = 200;
     protected long sharedSelectorTimeout = 30000;
     protected int maxSpareSelectors = -1;
-    protected boolean enabled = true;
+    protected boolean enabled = true;//在open()置为true
     protected AtomicInteger active = new AtomicInteger(0);
     protected AtomicInteger spare = new AtomicInteger(0);
     protected ConcurrentLinkedQueue<Selector> selectors =
@@ -130,6 +130,7 @@ public class NioSelectorPool {
         getSharedSelector();
         if (SHARED) {
             blockingSelector = new NioBlockingSelector();
+            //Using a shared selector for servlet write/read
             blockingSelector.open(getSharedSelector());
         }
 
