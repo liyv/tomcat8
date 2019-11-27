@@ -61,6 +61,7 @@ public class CatalinaProperties {
 
         InputStream is = null;
         try {
+            //存在吗？
             String configUrl = System.getProperty("catalina.config");
             if (configUrl != null) {
                 is = (new URL(configUrl)).openStream();

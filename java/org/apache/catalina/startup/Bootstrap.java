@@ -44,6 +44,9 @@ import org.apache.juli.logging.LogFactory;
  * other classes they depend on, such as an XML parser) out of the system
  * class path and therefore not visible to application level classes.
  *
+ * "catalina.home" 是什么和 catalina.base(有吗) 的区别是什么？
+ * server目录又是指什么
+ *
  * @author Craig R. McClanahan
  * @author Remy Maucherat
  */
@@ -204,6 +207,7 @@ public final class Bootstrap {
 
     /**
      * System property replacement in the given string.
+     * 替换系统属性中的占位字符，比如 catalina.properties 中的common.loader 属性字符串
      *
      * @param str The original string
      * @return the modified string
