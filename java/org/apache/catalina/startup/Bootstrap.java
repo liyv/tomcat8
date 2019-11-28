@@ -133,7 +133,7 @@ public final class Bootstrap {
     /**
      * Daemon reference.
      */
-    private Object catalinaDaemon = null;
+    private Object catalinaDaemon = null;//Catalina 实例
 
 
     ClassLoader commonLoader = null;
@@ -168,6 +168,8 @@ public final class Bootstrap {
         if ((value == null) || (value.equals("")))
             return parent;
 
+        // "${catalina.base}/lib","${catalina.base}/lib/*.jar","${catalina.home}/lib","${catalina.home}/lib/*.jar"
+        //替换后的结果
         value = replace(value);
 
         List<Repository> repositories = new ArrayList<>();
@@ -262,11 +264,13 @@ public final class Bootstrap {
 
         Thread.currentThread().setContextClassLoader(catalinaLoader);
 
+        //classloader .loadClass的作用是什么
         SecurityClassLoad.securityClassLoad(catalinaLoader);
 
         // Load our startup class and call its process() method
         if (log.isDebugEnabled())
             log.debug("Loading startup class");
+        //通过反射实例化 Catalina
         Class<?> startupClass =
             catalinaLoader.loadClass
             ("org.apache.catalina.startup.Catalina");
@@ -312,6 +316,7 @@ public final class Bootstrap {
             catalinaDaemon.getClass().getMethod(methodName, paramTypes);
         if (log.isDebugEnabled())
             log.debug("Calling startup class " + method);
+        //调用catalina 的load 方法
         method.invoke(catalinaDaemon, param);
 
     }
@@ -428,6 +433,7 @@ public final class Bootstrap {
         paramValues[0] = Boolean.valueOf(await);
         Method method =
             catalinaDaemon.getClass().getMethod("setAwait", paramTypes);
+        //Catalina 实例为什么要设置 await
         method.invoke(catalinaDaemon, paramValues);
 
     }
@@ -482,6 +488,7 @@ public final class Bootstrap {
 
         try {
             String command = "start";
+            //参数为空吗？
             if (args.length > 0) {
                 command = args[args.length - 1];
             }
@@ -494,6 +501,7 @@ public final class Bootstrap {
                 args[args.length - 1] = "stop";
                 daemon.stop();
             } else if (command.equals("start")) {
+                //为什么要设置这个标志？
                 daemon.setAwait(true);
                 daemon.load(args);
                 daemon.start();
