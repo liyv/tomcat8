@@ -80,7 +80,7 @@ public class Catalina {
     // ----------------------------------------------------- Instance Variables
 
     /**
-     * Use await.
+     * Use await. 这个字段的作用是什么
      */
     protected boolean await = false;
 
@@ -280,11 +280,11 @@ public class Catalina {
         digester.setUseContextClassLoader(true);
 
         // Configure the actions we will be using
-        digester.addObjectCreate("Server",//模式
+        digester.addObjectCreate("Server",//模式,元素匹配规则
                                  "org.apache.catalina.core.StandardServer",//默认的ClassName
                                  "className");//XML属性名
-        digester.addSetProperties("Server");//设置属性
-        digester.addSetNext("Server",//创建对象之间的关系 栈底对象和其上的对象
+        digester.addSetProperties("Server");//为栈顶的对象设置属性
+        digester.addSetNext("Server",//创建对象之间的关系 栈top-1(parent) 和栈顶对象(child)之间的关系，将栈顶对象作为参数传为top-1对象
                             "setServer",
                             "org.apache.catalina.Server");
 
@@ -319,7 +319,7 @@ public class Catalina {
                             "addLifecycleListener",
                             "org.apache.catalina.LifecycleListener");
 
-        //Executor
+        //Executor 怎么理解Executor
         digester.addObjectCreate("Server/Service/Executor",
                          "org.apache.catalina.core.StandardThreadExecutor",
                          "className");
@@ -329,9 +329,10 @@ public class Catalina {
                             "addExecutor",
                             "org.apache.catalina.Executor");
 
-
+        //创建连接？
         digester.addRule("Server/Service/Connector",
                          new ConnectorCreateRule());
+        //设置所有的属性？？？
         digester.addRule("Server/Service/Connector",
                          new SetAllPropertiesRule(new String[]{"executor", "sslImplementationName"}));
         digester.addSetNext("Server/Service/Connector",
@@ -344,7 +345,7 @@ public class Catalina {
         digester.addSetNext("Server/Service/Connector/SSLHostConfig",
                 "addSslHostConfig",
                 "org.apache.tomcat.util.net.SSLHostConfig");
-
+        //SSLHostConfigCertificate 证书
         digester.addRule("Server/Service/Connector/SSLHostConfig/Certificate",
                          new CertificateCreateRule());
         digester.addRule("Server/Service/Connector/SSLHostConfig/Certificate",
@@ -352,7 +353,7 @@ public class Catalina {
         digester.addSetNext("Server/Service/Connector/SSLHostConfig/Certificate",
                             "addCertificate",
                             "org.apache.tomcat.util.net.SSLHostConfigCertificate");
-
+        //监听器？？？
         digester.addObjectCreate("Server/Service/Connector/Listener",
                                  null, // MUST be specified in the element
                                  "className");
@@ -360,7 +361,7 @@ public class Catalina {
         digester.addSetNext("Server/Service/Connector/Listener",
                             "addLifecycleListener",
                             "org.apache.catalina.LifecycleListener");
-
+        //这是什么？？？升级协议？？？
         digester.addObjectCreate("Server/Service/Connector/UpgradeProtocol",
                                   null, // MUST be specified in the element
                                   "className");
@@ -370,10 +371,15 @@ public class Catalina {
                             "org.apache.coyote.UpgradeProtocol");
 
         // Add RuleSets for nested elements
+        //JNDI Enterprise Naming 的作用是什么，用在什么场景下
         digester.addRuleSet(new NamingRuleSet("Server/GlobalNamingResources/"));
+        //处理 Engine 标签
         digester.addRuleSet(new EngineRuleSet("Server/Service/"));
+        //处理 Host标签
         digester.addRuleSet(new HostRuleSet("Server/Service/Engine/"));
+        //处理 Context 标签
         digester.addRuleSet(new ContextRuleSet("Server/Service/Engine/Host/"));
+        //集群吗？？？已被移除？？？
         addClusterRuleSet(digester, "Server/Service/Engine/Host/Cluster/");
         digester.addRuleSet(new NamingRuleSet("Server/Service/Engine/Host/Context/"));
 
@@ -499,7 +505,7 @@ public class Catalina {
 
 
     /**
-     * Start a new server instance.
+     * Start a new server instance. server实例是什么，Engine? Host?
      */
     public void load() {
 
@@ -508,9 +514,11 @@ public class Catalina {
         initDirs();
 
         // Before digester - it may be needed
+        //naming 是什么？
         initNaming();
 
         // Create and execute our Digester
+        // XML配置文件解析工具？？？  the main digester to parse server.xml
         Digester digester = createStartDigester();
 
         InputSource inputSource = null;
@@ -518,6 +526,7 @@ public class Catalina {
         File file = null;
         try {
             try {
+                //conf/server.xml
                 file = configFile();
                 inputStream = new FileInputStream(file);
                 inputSource = new InputSource(file.toURI().toURL().toString());
@@ -575,7 +584,9 @@ public class Catalina {
 
             try {
                 inputSource.setByteStream(inputStream);
+                //将 this 推送到栈顶
                 digester.push(this);
+                //开始解析？？？
                 digester.parse(inputSource);
             } catch (SAXParseException spe) {
                 log.warn("Catalina.start using " + getConfigFile() + ": " +
@@ -594,7 +605,7 @@ public class Catalina {
                 }
             }
         }
-
+        //org.apache.catalina.core.StandardServer
         getServer().setCatalina(this);
         getServer().setCatalinaHome(Bootstrap.getCatalinaHomeFile());
         getServer().setCatalinaBase(Bootstrap.getCatalinaBaseFile());
@@ -604,6 +615,8 @@ public class Catalina {
 
         // Start the new server
         try {
+            // server 是？
+            //作用是什么
             getServer().init();
         } catch (LifecycleException e) {
             if (Boolean.getBoolean("org.apache.catalina.startup.EXIT_ON_INIT_FAILURE")) {
@@ -762,6 +775,7 @@ public class Catalina {
 
     protected void initDirs() {
         String temp = System.getProperty("java.io.tmpdir");
+        //有临时目录吗？
         if (temp == null || (!(new File(temp)).isDirectory())) {
             log.error(sm.getString("embedded.notmp", temp));
         }

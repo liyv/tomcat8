@@ -73,7 +73,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
     public StandardServer() {
 
         super();
-
+        //Naming 到底是什么？？？
         globalNamingResources = new NamingResourcesImpl();
         globalNamingResources.setContainer(this);
 
