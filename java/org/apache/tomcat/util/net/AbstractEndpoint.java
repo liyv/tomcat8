@@ -622,7 +622,7 @@ public abstract class AbstractEndpoint<S> {
     /**
      * Handling of accepted sockets.
      */
-    private Handler<S> handler = null;
+    private Handler<S> handler = null;//ConnectionHandler
     public void setHandler(Handler<S> handler ) { this.handler = handler; }
     public Handler<S> getHandler() { return handler; }
 

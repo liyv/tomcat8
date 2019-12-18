@@ -56,12 +56,13 @@ public class ConnectorCreateRule extends Rule {
     @Override
     public void begin(String namespace, String name, Attributes attributes)
             throws Exception {
+        //StandardService
         Service svc = (Service)digester.peek();
         Executor ex = null;
         if ( attributes.getValue("executor")!=null ) {
             ex = svc.getExecutor(attributes.getValue("executor"));
         }
-        //什么样的con Connector[HTTP/1.1-auto-1];Connecot[AJP/1.3-auto-2]
+        //什么样的con Connector[HTTP/1.1-auto-1];Connector[AJP/1.3-auto-2]
         Connector con = new Connector(attributes.getValue("protocol"));
         if (ex != null) {
             setExecutor(con, ex);

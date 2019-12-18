@@ -362,7 +362,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
      */
     @Override
     public void addService(Service service) {
-
+        //StandardService
         service.setServer(this);
 
         synchronized (servicesLock) {

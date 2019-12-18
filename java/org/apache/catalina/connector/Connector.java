@@ -71,6 +71,8 @@ public class Connector extends LifecycleMBeanBase  {
     }
 
     public Connector(String protocol) {
+        //为连接器设置协议
+        //HTTP/1.1 或者 AJP/1.3
         setProtocol(protocol);
         // Instantiate protocol handler
         ProtocolHandler p = null;
@@ -230,7 +232,7 @@ public class Connector extends LifecycleMBeanBase  {
     /**
      * Coyote protocol handler.
      */
-    protected final ProtocolHandler protocolHandler;
+    protected final ProtocolHandler protocolHandler; //Http11NioProtocol
 
 
     /**
@@ -578,7 +580,7 @@ public class Connector extends LifecycleMBeanBase  {
      */
     @Deprecated
     public void setProtocol(String protocol) {
-
+        //apr 是什么？？？
         boolean aprConnector = AprLifecycleListener.isAprAvailable() &&
                 AprLifecycleListener.getUseAprConnector();
 
@@ -586,6 +588,7 @@ public class Connector extends LifecycleMBeanBase  {
             if (aprConnector) {
                 setProtocolHandlerClassName("org.apache.coyote.http11.Http11AprProtocol");
             } else {
+                //应该是这个了
                 setProtocolHandlerClassName("org.apache.coyote.http11.Http11NioProtocol");
             }
         } else if ("AJP/1.3".equals(protocol)) {
@@ -997,7 +1000,7 @@ public class Connector extends LifecycleMBeanBase  {
 
         try {
             //这里到底是做什么的
-            //
+            // Http11NioProtocol???
             protocolHandler.init();
         } catch (Exception e) {
             throw new LifecycleException(

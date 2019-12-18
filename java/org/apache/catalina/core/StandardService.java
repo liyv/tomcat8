@@ -70,7 +70,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
     /**
      * The <code>Server</code> that owns this Service, if any.
      */
-    private Server server = null;
+    private Server server = null;//StandardServer 在解析server.xml时赋值的
 
     /**
      * The property change support for this component.
@@ -198,6 +198,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
      */
     @Override
     public void setServer(Server server) {
+        //StandardServer
         this.server = server;
     }
 
@@ -213,6 +214,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
     @Override
     public void addConnector(Connector connector) {
         //应该是有2个 connector 吧
+        //处理http/1.1 和 处理apr/1.3的
         synchronized (connectorsLock) {
             connector.setService(this);
             Connector results[] = new Connector[connectors.length + 1];

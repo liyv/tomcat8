@@ -100,7 +100,7 @@ public class Catalina {
     /**
      * The server component we are starting or stopping.
      */
-    protected Server server = null;
+    protected Server server = null; //StandardServer
 
 
     /**
@@ -167,6 +167,7 @@ public class Catalina {
         return ClassLoader.getSystemClassLoader();
     }
 
+    //StandardServer
     public void setServer(Server server) {
         this.server = server;
     }
@@ -310,7 +311,7 @@ public class Catalina {
         digester.addSetNext("Server/Service",
                             "addService",
                             "org.apache.catalina.Service");
-
+        //service 里面没有Listener 啊？？？
         digester.addObjectCreate("Server/Service/Listener",
                                  null, // MUST be specified in the element
                                  "className");

@@ -45,6 +45,7 @@ public abstract class LifecycleBase implements Lifecycle {
 
     /**
      * The list of registered LifecycleListeners for event notifications.
+     * 会有哪些值 listener
      */
     private final List<LifecycleListener> lifecycleListeners = new CopyOnWriteArrayList<>();
 
@@ -61,6 +62,8 @@ public abstract class LifecycleBase implements Lifecycle {
     @Override
     public void addLifecycleListener(LifecycleListener listener) {
         //EngineConfig,HostConfig,ContextConfig
+        //有server.xml 里的5个吗？
+        // VersionLoggerListener,AprLifecycleListener,JreMemoryLeakPreventionListener,GlobalResourcesLifecycleListener,ThreadLocalLeakPreventionListener
         lifecycleListeners.add(listener);
     }
 

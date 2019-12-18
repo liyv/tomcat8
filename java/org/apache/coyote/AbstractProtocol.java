@@ -94,10 +94,10 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
      * ProtocolHandler implementation (ProtocolHandler using NIO, requires NIO
      * Endpoint etc.).
      */
-    private final AbstractEndpoint<S> endpoint;
+    private final AbstractEndpoint<S> endpoint; //NioEndpoint
 
 
-    private Handler<S> handler;
+    private Handler<S> handler; //ConnectionHandler
 
 
     private final Set<Processor> waitingProcessors =
@@ -744,7 +744,7 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
     //这很重要
     protected static class ConnectionHandler<S> implements AbstractEndpoint.Handler<S> {
 
-        private final AbstractProtocol<S> proto;
+        private final AbstractProtocol<S> proto; //Http11NioProtocol
         private final RequestGroupInfo global = new RequestGroupInfo();
         private final AtomicLong registerCount = new AtomicLong(0);
         private final Map<S,Processor> connections = new ConcurrentHashMap<>();
