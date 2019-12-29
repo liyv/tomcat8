@@ -653,7 +653,7 @@ public class Catalina {
      * Start a new server instance.
      */
     public void start() {
-
+        //StandardServer[8005]
         if (getServer() == null) {
             load();
         }

@@ -57,7 +57,7 @@ public class StandardHost extends ContainerBase implements Host {
     private static final Log log = LogFactory.getLog(StandardHost.class);
 
     // ----------------------------------------------------------- Constructors
-
+    //lifecycleListeners 有一个HostConfig 实例
 
     /**
      * Create a new StandardHost component with the default basic Valve.
@@ -845,11 +845,12 @@ public class StandardHost extends ContainerBase implements Host {
     @Override
     protected synchronized void startInternal() throws LifecycleException {
 
-        // Set error report valve
+        // Set error report valve   org.apache.catalina.valves.ErrorReportValve
         String errorValve = getErrorReportValveClass();
         if ((errorValve != null) && (!errorValve.equals(""))) {
             try {
                 boolean found = false;
+                //StandardPipeline
                 Valve[] valves = getPipeline().getValves();
                 for (Valve valve : valves) {
                     if (errorValve.equals(valve.getClass().getName())) {

@@ -156,7 +156,7 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
      * The adapter provides the link between the ProtocolHandler and the
      * connector.
      */
-    protected Adapter adapter;
+    protected Adapter adapter;//CoyoteAdapter
     @Override
     public void setAdapter(Adapter adapter) { this.adapter = adapter; }
     @Override

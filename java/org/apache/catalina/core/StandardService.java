@@ -533,7 +533,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
         //注册 JMX
         super.initInternal();
 
-        if (engine != null) {//StandardEngine[Cataline]
+        if (engine != null) {//StandardEngine[Catalina]
             engine.init();
         }
 

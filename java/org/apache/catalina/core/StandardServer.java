@@ -128,6 +128,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
 
     /**
      * The set of Services associated with this Server.
+     * StandardService[Catalina]
      */
     private Service services[] = new Service[0];
     private final Object servicesLock = new Object();
@@ -781,7 +782,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
      */
     @Override
     protected void startInternal() throws LifecycleException {
-        //触发生命周期事件
+        //触发生命周期事件 configure_start
         fireLifecycleEvent(CONFIGURE_START_EVENT, null);
         //为子类提供一种更新组件状态的机制，并会触发一系列相关的生命周期事件
         setState(LifecycleState.STARTING);
@@ -790,7 +791,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
 
         // Start our defined Services
         synchronized (servicesLock) {
-            //size =
+            //size = 1
             for (int i = 0; i < services.length; i++) {
                 services[i].start();
             }

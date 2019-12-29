@@ -45,7 +45,7 @@ public abstract class LifecycleBase implements Lifecycle {
 
     /**
      * The list of registered LifecycleListeners for event notifications.
-     * 会有哪些值 listener
+     * 会有哪些值 listener 6个值，server.xml中的5个+NamingContextListener
      */
     private final List<LifecycleListener> lifecycleListeners = new CopyOnWriteArrayList<>();
 
@@ -363,7 +363,7 @@ public abstract class LifecycleBase implements Lifecycle {
     //作用是什么？设置内部的状态？
     private synchronized void setStateInternal(LifecycleState state,
             Object data, boolean check) throws LifecycleException {
-
+        //false
         if (log.isDebugEnabled()) {
             log.debug(sm.getString("lifecycleBase.setState", this, state));
         }
@@ -396,6 +396,7 @@ public abstract class LifecycleBase implements Lifecycle {
         }
 
         this.state = state;
+        //before_init 、before_start
         String lifecycleEvent = state.getLifecycleEvent();
         if (lifecycleEvent != null) {
             //这里有文章

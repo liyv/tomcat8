@@ -211,6 +211,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
         InetSocketAddress addr = (getAddress()!=null?new InetSocketAddress(getAddress(),getPort()):new InetSocketAddress(getPort()));
         //serversocket关联地址
         serverSock.socket().bind(addr,getBacklog());// getbacklog=100  sun.nio.ch.ServerSocketChannelImpl[/0:0:0:0:0:0:0:0:8080]
+        //为什么要配置blocking？？？
         serverSock.configureBlocking(true); //mimic APR behavior 模仿
 
         // Initialize thread count defaults for acceptor, poller
@@ -229,7 +230,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
         initialiseSsl();
         //线程安全的非阻塞的selector 池,好像做了很多事
         //Using a shared selector for servlet write/read
-        //NioSelectorPool
+        //NioSelectorPool   selector的作用是什么？？？
         selectorPool.open();
     }
 

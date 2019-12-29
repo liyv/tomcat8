@@ -159,6 +159,8 @@ public abstract class ContainerBase extends LifecycleMBeanBase
 
     /**
      * The child Containers belonging to this Container, keyed by name.
+     * StandardContext :  0:"default" -> "StandardEngine[Catalina].StandardHost[localhost].StandardContext[].StandardWrapper[default]"
+     *                    1: "jsp" -> "StandardEngine[Catalina].StandardHost[localhost].StandardContext[].StandardWrapper[jsp]"
      */
     protected final HashMap<String, Container> children = new HashMap<>();
 
@@ -730,7 +732,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
     }
 
     private void addChildInternal(Container child) {
-        //StandardHost.add(StandardContext;StandardEngine[Cataline].add(StandardHost[localhost];StandardContext[].add(StandardWrapper[default]
+        //StandardHost.add(StandardContext;StandardEngine[Catalina].add(StandardHost[localhost];StandardContext[].add(StandardWrapper[default]
         if( log.isDebugEnabled() )
             log.debug("Add child " + child + " " + this);
         synchronized(children) {
@@ -745,7 +747,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
         // Start child
         // Don't do this inside sync block - start can be a slow process and
         // locking the children object can cause problems elsewhere
-        try {//false
+        try {//true
             if ((getState().isAvailable() ||
                     LifecycleState.STARTING_PREP.equals(getState())) &&
                     startChildren) {
@@ -899,6 +901,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
                 getStartStopThreadsInternal(), 10, TimeUnit.SECONDS,
                 startStopQueue,
                 new StartStopThreadFactory(getName() + "-startStop-"));
+        //这是什么意思？？？
         startStopExecutor.allowCoreThreadTimeOut(true);
         super.initInternal();
     }
@@ -917,12 +920,12 @@ public abstract class ContainerBase extends LifecycleMBeanBase
         // Start our subordinate components, if any
         logger = null;
         getLogger();
-        //集群？是什么
+        //集群？是什么 null
         Cluster cluster = getClusterInternal();
         if (cluster instanceof Lifecycle) {
             ((Lifecycle) cluster).start();
         }
-        //Realm又是什么
+        //Realm又是什么   Realm[LockOutRealm]
         Realm realm = getRealmInternal();
         if (realm instanceof Lifecycle) {
             ((Lifecycle) realm).start();
@@ -930,6 +933,9 @@ public abstract class ContainerBase extends LifecycleMBeanBase
 
         // Start our child containers, if any
         //是使用了线程池来启动子容器吗？
+        //StandardEngine 的children : StandardHost "StandardEngine[Catalina].StandardHost[localhost]"
+        //StandardHost 的children : StandardContext "StandardEngine[Catalina].StandardHost[localhost].StandardContext[]"
+        //StandardWrapper 没有 children
         Container children[] = findChildren();
         List<Future<Void>> results = new ArrayList<>();
         for (int i = 0; i < children.length; i++) {
@@ -952,7 +958,9 @@ public abstract class ContainerBase extends LifecycleMBeanBase
         }
 
         // Start the Valves in our pipeline (including the basic), if any
-        //启动管道，管道接着启动阀
+        //pipeline StandradWrapper :StandardPipeline Pipeline[StandardEngine[Catalina].StandardHost[localhost].StandardContext[].StandardWrapper[default]]
+        //         basic = org.apache.catalina.core.StandardWrapperValve[default]
+        //启动管道，管道接着启动阀 ，basic是什么
         if (pipeline instanceof Lifecycle)
             ((Lifecycle) pipeline).start();//standardwrappervalve
 

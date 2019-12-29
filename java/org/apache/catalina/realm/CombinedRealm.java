@@ -46,7 +46,7 @@ public class CombinedRealm extends RealmBase {
     private static final Log log = LogFactory.getLog(CombinedRealm.class);
 
     /**
-     * The list of Realms contained by this Realm.
+     * The list of Realms contained by this Realm. Realm[UserDatabaseRealm]
      */
     protected final List<Realm> realms = new LinkedList<>();
 

@@ -363,7 +363,7 @@ public class StandardContext extends ContainerBase
 
 
     /**
-     * The document root for this web application.
+     * The document root for this web application. 当前: E:\project\git\tomcat8\webapps\ROOT
      */
     private String docBase = null;
 
@@ -612,7 +612,7 @@ public class StandardContext extends ContainerBase
     /**
      * Java class name of the Wrapper class implementation we use.
      */
-    private String wrapperClassName = StandardWrapper.class.getName();
+    private String wrapperClassName = StandardWrapper.class.getName();//org.apache.catalina.core.StandardWrapper
     private Class<?> wrapperClass = null;
 
 
@@ -5049,9 +5049,9 @@ public class StandardContext extends ContainerBase
         // Binding thread
         ClassLoader oldCCL = bindThread();
 
-        try {
+        try {//true
             if (ok) {
-                // Start our subordinate components, if any
+                // Start our subordinate components, if any  WebappLoader[]
                 Loader loader = getLoader();
                 if (loader instanceof Lifecycle) {
                     ((Lifecycle) loader).start();
@@ -5102,9 +5102,11 @@ public class StandardContext extends ContainerBase
                 }
 
                 // Notify our interested LifecycleListeners
+                //StandardContext 的 lifecycleListeners 有哪些？？？1. ContextConfig 2:StandardHost$MemoryLeakTrackingListener 3:NamingContextListener
                 fireLifecycleEvent(Lifecycle.CONFIGURE_START_EVENT, null);
 
                 // Start our child containers, if not already started
+                //StandardWrapper[default] StandardWrapper[jsp]
                 for (Container child : findChildren()) {
                     if (!child.getState().isAvailable()) {
                         child.start();
@@ -5137,7 +5139,7 @@ public class StandardContext extends ContainerBase
                         contextManager = new StandardManager();
                     }
                 }
-
+                //StandardManager 是什么
                 // Configure default manager if none was specified
                 if (contextManager != null) {
                     if (log.isDebugEnabled()) {

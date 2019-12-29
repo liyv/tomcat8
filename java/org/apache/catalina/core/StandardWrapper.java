@@ -141,7 +141,7 @@ public class StandardWrapper extends ContainerBase
 
     /**
      * The load-on-startup order value (negative value means load on
-     * first call) for this servlet.
+     * first call) for this servlet. = 3
      */
     protected int loadOnStartup = -1;
 
@@ -155,6 +155,8 @@ public class StandardWrapper extends ContainerBase
     /**
      * The initialization parameters for this servlet, keyed by
      * parameter name.
+     * "fork":"false"
+     * "xpoweredBy":"false"
      */
     protected HashMap<String, String> parameters = new HashMap<>();
 
@@ -169,6 +171,7 @@ public class StandardWrapper extends ContainerBase
 
     /**
      * The run-as identity for this servlet.
+     * null
      */
     protected String runAs = null;
 
@@ -1701,7 +1704,7 @@ public class StandardWrapper extends ContainerBase
             new StringBuilder("j2eeType=Servlet");
 
         keyProperties.append(getWebModuleKeyProperties());
-
+        //j2eeType=Servlet,WebModule=//localhost/,name=jsp
         keyProperties.append(",name=");
 
         String name = getName();

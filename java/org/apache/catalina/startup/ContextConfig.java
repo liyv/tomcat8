@@ -1322,6 +1322,7 @@ public class ContextConfig implements LifecycleListener {
         for (ContextService service : webxml.getServiceRefs().values()) {//size=0
             context.getNamingResources().addService(service);
         }
+        //context :StandardContext servlets = 0: default ->  DefaultServlet; 1: jsp -> JspServlet
         for (ServletDef servlet : webxml.getServlets().values()) {//size=2;DefaultServlet,JspServlet
             Wrapper wrapper = context.createWrapper();
             // Description is ignored
@@ -1513,7 +1514,7 @@ public class ContextConfig implements LifecycleListener {
         // Parsing global web.xml is relatively expensive. Use a sync block to
         // make sure it only happens once. Use the pipeline since a lock will
         // already be held on the host by another thread
-        synchronized (host.getPipeline()) {//Pipeline[StandardEngine[Catalina].StandardHost[localhost]]StandardHost.StandardPipline
+        synchronized (host.getPipeline()) {//Pipeline[StandardEngine[Catalina].StandardHost[localhost]]StandardHost.StandardPipeline
             entry = hostWebXmlCache.get(host);//null
             if (entry != null && entry.getGlobalTimeStamp() == globalTimeStamp &&
                     entry.getHostTimeStamp() == hostTimeStamp) {//false
