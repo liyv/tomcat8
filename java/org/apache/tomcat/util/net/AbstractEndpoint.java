@@ -1050,6 +1050,7 @@ public abstract class AbstractEndpoint<S> {
     protected LimitLatch initializeConnectionLatch() {
         if (maxConnections==-1) return null;
         if (connectionLimitLatch==null) {
+            //最大连接数10000
             connectionLimitLatch = new LimitLatch(getMaxConnections());
         }
         return connectionLimitLatch;

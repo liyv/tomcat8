@@ -342,7 +342,7 @@ public class Http11InputBuffer implements InputBuffer, ApplicationBufferHandler 
     //keptAlive =false ++
     boolean parseRequestLine(boolean keptAlive) throws IOException {
 
-        // check state
+        // check state ,还可以离开的吗？？？解析过程到底是什么样的？？？
         if (!parsingRequestLine) {
             return true;
         }
@@ -352,7 +352,6 @@ public class Http11InputBuffer implements InputBuffer, ApplicationBufferHandler 
         if (parsingRequestLinePhase < 2) {
             byte chr = 0;
             do {
-
                 // Read new bytes if needed
                 //byteBuffer 的作用到底是什么，在init(...)中初始化，还很大容量，
                 //初始化时 position=limit=0
@@ -391,6 +390,7 @@ public class Http11InputBuffer implements InputBuffer, ApplicationBufferHandler 
                 }
                 chr = byteBuffer.get();
             } while ((chr == Constants.CR) || (chr == Constants.LF));
+            //上面的循环应该是找到第一个非 回车、换行的字符
             byteBuffer.position(byteBuffer.position() - 1);
 
             parsingRequestLineStart = byteBuffer.position();

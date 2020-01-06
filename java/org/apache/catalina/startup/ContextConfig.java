@@ -1337,7 +1337,7 @@ public class ContextConfig implements LifecycleListener {
             if (servlet.getEnabled() != null) {
                 wrapper.setEnabled(servlet.getEnabled().booleanValue());
             }
-            wrapper.setName(servlet.getServletName());//default
+            wrapper.setName(servlet.getServletName());//default,jsp
             Map<String,String> params = servlet.getParameterMap();
             for (Entry<String, String> entry : params.entrySet()) {
                 wrapper.addInitParameter(entry.getKey(), entry.getValue());

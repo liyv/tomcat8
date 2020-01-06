@@ -921,11 +921,13 @@ public abstract class ContainerBase extends LifecycleMBeanBase
         logger = null;
         getLogger();
         //集群？是什么 null
+        //StandardHost: cluster == null;
         Cluster cluster = getClusterInternal();
         if (cluster instanceof Lifecycle) {
             ((Lifecycle) cluster).start();
         }
         //Realm又是什么   Realm[LockOutRealm]
+        //StandardHost: realm == null;
         Realm realm = getRealmInternal();
         if (realm instanceof Lifecycle) {
             ((Lifecycle) realm).start();

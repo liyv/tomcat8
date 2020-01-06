@@ -662,6 +662,15 @@ public class Http11Processor extends AbstractProcessor {
     public SocketState service(SocketWrapperBase<?> socketWrapper)
         throws IOException {
         RequestInfo rp = request.getRequestProcessor();
+        //  Request states
+        //    public static final int STAGE_NEW = 0;
+        //    public static final int STAGE_PARSE = 1;
+        //    public static final int STAGE_PREPARE = 2;
+        //    public static final int STAGE_SERVICE = 3;
+        //    public static final int STAGE_ENDINPUT = 4;
+        //    public static final int STAGE_ENDOUTPUT = 5;
+        //    public static final int STAGE_KEEPALIVE = 6;
+        //    public static final int STAGE_ENDED = 7;
         rp.setStage(org.apache.coyote.Constants.STAGE_PARSE);
 
         // Setting up the I/O

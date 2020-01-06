@@ -971,6 +971,7 @@ public class Connector extends LifecycleMBeanBase  {
         super.initInternal();
 
         // Initialize adapter
+        //The adapter, used to call the connector.
         //构造一个与此连接器关联的CoyoteProcessor
         adapter = new CoyoteAdapter(this);
         //协议处理器

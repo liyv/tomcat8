@@ -702,6 +702,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
             while ( (pe = events.poll()) != null ) {
                 result = true;
                 try {
+                    //都是在poller的线程中执行的？？？
                     pe.run();
                     pe.reset();
                     if (running && !paused) {

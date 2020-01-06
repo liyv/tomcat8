@@ -128,7 +128,7 @@ public class NioSelectorPool {
     public void open() throws IOException {
         enabled = true;
         getSharedSelector();
-        if (SHARED) {
+        if (SHARED) {//true
             blockingSelector = new NioBlockingSelector();
             //Using a shared selector for servlet write/read
             blockingSelector.open(getSharedSelector());
