@@ -825,6 +825,13 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
     /**
      * Invoke a pre-startup initialization. This is used to allow connectors
      * to bind to restricted ports under Unix operating environments.
+     *
+     * initInternal()方法实现了哪些功能：涉及到哪些对象？
+     * 1. 操作了类加载器
+     * 2.调用了StandardService 的 init()方法
+     * |
+     * |
+     * 3.流程走到StandardService
      */
     @Override
     protected void initInternal() throws LifecycleException {
@@ -848,6 +855,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
         // Populate the extension validator with JARs from common and shared
         // class loaders
         if (getCatalina() != null) {//true
+            //Catalina 的类加载器
             ClassLoader cl = getCatalina().getParentClassLoader();
             // Walk the class loader hierarchy. Stop at the system class loader.
             // This will add the shared (if present) and common class loaders

@@ -100,7 +100,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
 
 
     /**
-     * Mapper listener.
+     * Mapper listener. 作用是什么？？？
      */
     protected final MapperListener mapperListener = new MapperListener(this);
 
@@ -423,7 +423,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
         // Start our defined Container first
         if (engine != null) {
             synchronized (engine) {
-                //容器启动
+                //容器启动,为什么engine要先启动？
                 engine.start();
             }
         }
@@ -527,6 +527,11 @@ public class StandardService extends LifecycleMBeanBase implements Service {
     /**
      * Invoke a pre-startup initialization. This is used to allow connectors
      * to bind to restricted ports under Unix operating environments.
+     * 实现了哪些功能，有哪些逻辑，涉及到哪些对象？
+     *     流程：   ----》1.StandardEngine 的init()
+     *                                           |
+     *                                    <-------
+     *
      */
     @Override
     protected void initInternal() throws LifecycleException {

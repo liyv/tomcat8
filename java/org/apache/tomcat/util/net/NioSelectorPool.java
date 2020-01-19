@@ -48,7 +48,7 @@ public class NioSelectorPool {
 
     protected NioBlockingSelector blockingSelector;
 
-    protected volatile Selector SHARED_SELECTOR;
+    protected volatile Selector SHARED_SELECTOR;//共享的selector?这个selector用在了哪些地方？？
 
     protected int maxSelectors = 200;
     protected long sharedSelectorTimeout = 30000;

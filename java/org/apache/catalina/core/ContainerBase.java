@@ -278,7 +278,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase
      * children associated with this container.
      */
     private int startStopThreads = 1;
-    protected ThreadPoolExecutor startStopExecutor;
+    protected ThreadPoolExecutor startStopExecutor; //作用是什么？？
 
 
     // ------------------------------------------------------------- Properties

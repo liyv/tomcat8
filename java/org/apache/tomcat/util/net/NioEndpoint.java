@@ -87,7 +87,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
     private ServerSocketChannel serverSock = null;
 
     /**
-     *
+     * 这个作用是什么？？？
      */
     private volatile CountDownLatch stopLatch = null;
 
@@ -664,6 +664,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
 
         private void addEvent(PollerEvent event) {
             events.offer(event);
+            //wakeupCounter == -1?
             if ( wakeupCounter.incrementAndGet() == 0 ) selector.wakeup();
         }
 
@@ -1460,7 +1461,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
 
                 try {
                     if (key != null) {
-                        //true
+                        //true 握手完成？？？
                         if (socket.isHandshakeComplete()) {
                             // No TLS handshaking required. Let the handler
                             // process this socket / event combination.

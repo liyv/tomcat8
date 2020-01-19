@@ -964,7 +964,15 @@ public class Connector extends LifecycleMBeanBase  {
         }
     }
 
-
+    /**
+     * 实现了哪些逻辑，涉及到哪些对象
+     * standardService ---> connector.init()---> http11NioProtocol.init()
+     * 涉及到的对象
+     * 1.CoyoteAdapter
+     * 2.Http11NioProtocol
+     *
+     * @throws LifecycleException
+     */
     @Override
     protected void initInternal() throws LifecycleException {
         //首先是:Connector[HTTP/1.1-8080]

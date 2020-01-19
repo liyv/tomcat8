@@ -6118,6 +6118,7 @@ public class StandardContext extends ContainerBase
 
         // Set the appropriate servlet context attribute
         if (context == null) {//null
+            //门面模式？
             getServletContext();//ApplicationContextFacade
         }
         context.setAttribute(ServletContext.TEMPDIR, dir);

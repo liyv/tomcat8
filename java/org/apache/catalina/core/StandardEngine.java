@@ -234,7 +234,12 @@ public class StandardEngine extends ContainerBase implements Engine {
 
     }
 
-
+    /**
+     * 实现了哪些逻辑，涉及到哪些对象？
+     *  还没理解到具体的逻辑
+     *   流程走势：
+     * @throws LifecycleException
+     */
     @Override
     protected void initInternal() throws LifecycleException {
         // Ensure that a Realm is present before any attempt is made to start

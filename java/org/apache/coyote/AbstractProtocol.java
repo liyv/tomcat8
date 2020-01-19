@@ -787,6 +787,7 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
             S socket = wrapper.getSocket();
             //从connections Map中找到和这个socket关联的processor?记录这个socket的信息？
             //Processor 的具体实例是什么
+            //为什么要把处理socket的处理器缓存起来呢？？？
             Processor processor = connections.get(socket);
             if (getLog().isDebugEnabled()) {
                 getLog().debug(sm.getString("abstractConnectionHandler.connectionsGet",
@@ -801,7 +802,7 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
                 // longer a processor associated with this socket.
                 return SocketState.CLOSED;
             }
-
+            // ThreadLocal
             ContainerThreadMarker.set();
 
             try {

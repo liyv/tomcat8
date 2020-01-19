@@ -46,7 +46,7 @@ public class NioBlockingSelector {
     private final SynchronizedStack<KeyReference> keyReferenceStack =
             new SynchronizedStack<>();
 
-    protected Selector sharedSelector;
+    protected Selector sharedSelector;//这个selector 和 NioSelectorPool 的SHARED是同一个？
 
     protected BlockPoller poller;
     public NioBlockingSelector() {

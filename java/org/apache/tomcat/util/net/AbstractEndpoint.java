@@ -364,7 +364,7 @@ public abstract class AbstractEndpoint<S> {
     }
 
     /**
-     * External Executor based thread pool.
+     * External Executor based thread pool.外部指定的吗？？？
      */
     private Executor executor = null;
     public void setExecutor(Executor executor) {
@@ -930,6 +930,7 @@ public abstract class AbstractEndpoint<S> {
             } else {
                 sc.reset(socketWrapper, event);
             }
+            //外部指定的吗？？？
             Executor executor = getExecutor();
             if (dispatch && executor != null) {
                 executor.execute(sc);
