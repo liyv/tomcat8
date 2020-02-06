@@ -87,7 +87,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
     private ServerSocketChannel serverSock = null;
 
     /**
-     * 这个作用是什么？？？
+     * 这个作用是什么？？？阀值是2
      */
     private volatile CountDownLatch stopLatch = null;
 
@@ -200,6 +200,9 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
 
     /**
      * Initialize the endpoint.
+     * 1.acceptorThreadCount
+     * 2.pollerThreadCount
+     * 3.nioSelectorPool
      */
     @Override
     public void bind() throws Exception {
@@ -1215,7 +1218,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel> {
             }
 
             // The socket read buffer capacity is socket.appReadBufSize
-            //readBuffer
+            //readBuffer 8192
             int limit = socketBufferHandler.getReadBuffer().capacity();
             if (to.remaining() >= limit) {
                 to.limit(to.position() + limit);

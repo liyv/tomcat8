@@ -705,7 +705,7 @@ public class Http11Processor extends AbstractProcessor {
                 } else {
                     keptAlive = true;
                     // Set this every time in case limit has been changed via JMX
-                    request.getMimeHeaders().setLimit(endpoint.getMaxHeaderCount());
+                    request.getMimeHeaders().setLimit(endpoint.getMaxHeaderCount());//100
                     if (!inputBuffer.parseHeaders()) {
                         // We've read part of the request, don't recycle it
                         // instead associate it with the socket

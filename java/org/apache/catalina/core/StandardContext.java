@@ -533,6 +533,7 @@ public class StandardContext extends ContainerBase
     /**
      * The servlet mappings for this web application, keyed by
      * matching pattern.
+     * pattern --> name
      */
     private HashMap<String, String> servletMappings = new HashMap<>();
 

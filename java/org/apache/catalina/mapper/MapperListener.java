@@ -55,11 +55,13 @@ public class MapperListener extends LifecycleMBeanBase
     // ----------------------------------------------------- Instance Variables
     /**
      * Associated mapper.
+     * standardService getMapper()
      */
     private final Mapper mapper;
 
     /**
      * Associated service
+     * standardService
      */
     private final Service service;
 

@@ -304,6 +304,7 @@ public class CoyoteAdapter implements Adapter {
 
         if (request == null) {
             // Create objects
+            // HttpServletRequest
             request = connector.createRequest();
             request.setCoyoteRequest(req);
             response = connector.createResponse();
@@ -599,6 +600,7 @@ public class CoyoteAdapter implements Adapter {
 
         MessageBytes decodedURI = req.decodedURI();
 
+        //post类似的请求么？
         if (undecodedURI.getType() == MessageBytes.T_BYTES) {
             // Copy the raw URI to the decodedURI
             decodedURI.duplicate(undecodedURI);
@@ -658,6 +660,7 @@ public class CoyoteAdapter implements Adapter {
 
         // Request mapping.
         MessageBytes serverName;
+        //虚拟主机？
         if (connector.getUseIPVHosts()) {
             serverName = req.localName();
             if (serverName.isNull()) {
@@ -711,6 +714,7 @@ public class CoyoteAdapter implements Adapter {
             }
 
             // Look for session ID in cookies and SSL session
+            //不知为何？
             parseSessionCookiesId(request);
             parseSessionSslId(request);
 
@@ -873,6 +877,8 @@ public class CoyoteAdapter implements Adapter {
      * interested in the session ID that will be in this form. Other parameters
      * can safely be ignored.
      *
+     * 只是为了提取sessionId吗，url里会有分号？
+     *
      * @param req The Coyote request object
      * @param request The Servlet request object
      */
@@ -986,7 +992,7 @@ public class CoyoteAdapter implements Adapter {
 
 
     /**
-     * Parse session id in URL.
+     * Parse session id in URL.这是做什么？
      *
      * @param request The Servlet request object
      */

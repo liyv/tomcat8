@@ -147,7 +147,7 @@ public class StandardWrapper extends ContainerBase
 
 
     /**
-     * Mappings associated with the wrapper.
+     * Mappings associated with the wrapper.存放的是映射到这个wrapper的pattern，这个的作用是什么？？？有多个的情况？pattern 比如："/","*.jsp"等？
      */
     protected final ArrayList<String> mappings = new ArrayList<>();
 

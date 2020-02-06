@@ -259,7 +259,7 @@ public final class Bootstrap {
      * @throws Exception Fatal initialization error
      */
     public void init() throws Exception {
-
+        //如何理解java中的classloader
         initClassLoaders();
 
         Thread.currentThread().setContextClassLoader(catalinaLoader);

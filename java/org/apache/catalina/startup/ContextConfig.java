@@ -1324,6 +1324,7 @@ public class ContextConfig implements LifecycleListener {
         }
         //context :StandardContext servlets = 0: default ->  DefaultServlet; 1: jsp -> JspServlet
         for (ServletDef servlet : webxml.getServlets().values()) {//size=2;DefaultServlet,JspServlet
+            //StandardWrapper
             Wrapper wrapper = context.createWrapper();
             // Description is ignored
             // Display name is ignored
@@ -1376,6 +1377,7 @@ public class ContextConfig implements LifecycleListener {
                 webxml.getServletMappings().entrySet()) {
             context.addServletMappingDecoded(entry.getKey(), entry.getValue());
         }
+        //Session 和 SessionCookie 区别是什么？？？
         SessionConfig sessionConfig = webxml.getSessionConfig();
         if (sessionConfig != null) {//true
             if (sessionConfig.getSessionTimeout() != null) {//true

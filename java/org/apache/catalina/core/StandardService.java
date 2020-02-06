@@ -531,6 +531,9 @@ public class StandardService extends LifecycleMBeanBase implements Service {
      *     流程：   ----》1.StandardEngine 的init()
      *                                           |
      *                                    <-------
+     *  1.StandardEngine
+     *  2.mapperListener/mapper
+     *  3.connector
      *
      */
     @Override
@@ -539,6 +542,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
         super.initInternal();
 
         if (engine != null) {//StandardEngine[Catalina]
+            //engine 的init 没做什么吗？
             engine.init();
         }
 

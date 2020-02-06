@@ -212,11 +212,12 @@ public class NioBlockingSelector {
         return read;
     }
 
-
+    //作用是什么？？？
     protected static class BlockPoller extends Thread {
         protected volatile boolean run = true;
         //Using a shared selector for servlet write/read
         protected Selector selector = null;
+        //谁往这个队列填充数据？
         protected final SynchronizedQueue<Runnable> events =
                 new SynchronizedQueue<>();
         public void disable() { run = false; selector.wakeup();}

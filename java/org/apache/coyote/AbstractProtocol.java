@@ -558,6 +558,8 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
      * NOTE: There is no maintenance of state or checking for valid transitions
      * within this class. It is expected that the connector will maintain state
      * and prevent invalid state transitions.
+     *
+     * 1.NioEndpoint
      */
 
     @Override

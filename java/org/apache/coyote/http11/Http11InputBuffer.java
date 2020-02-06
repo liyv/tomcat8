@@ -135,6 +135,7 @@ public class Http11InputBuffer implements InputBuffer, ApplicationBufferHandler 
     /**
      * Maximum allowed size of the HTTP request line plus headers plus any
      * leading blank lines.
+     * 8192
      */
     private final int headerBufferSize;
 
@@ -367,7 +368,7 @@ public class Http11InputBuffer implements InputBuffer, ApplicationBufferHandler 
                         return false;
                     }
                     // At least one byte of the request has been received.
-                    // Switch to the socket timeout.
+                    // Switch to the socket timeout. 20000
                     wrapper.setReadTimeout(wrapper.getEndpoint().getSoTimeout());
                 }
                 if (!keptAlive && byteBuffer.position() == 0 && byteBuffer.limit() >= CLIENT_PREFACE_START.length - 1) {
@@ -679,7 +680,7 @@ public class Http11InputBuffer implements InputBuffer, ApplicationBufferHandler 
 
         wrapper = socketWrapper;
         wrapper.setAppReadBufHandler(this);
-
+        //16384 2个8192
         int bufLength = headerBufferSize +
                 wrapper.getSocketBufferHandler().getReadBuffer().capacity();
         if (byteBuffer == null || byteBuffer.capacity() < bufLength) {

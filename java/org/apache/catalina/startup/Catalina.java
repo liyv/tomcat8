@@ -618,6 +618,7 @@ public class Catalina {
         try {
             // server 是？
             //作用是什么
+            //这里用到了什么设计模式？
             getServer().init();
         } catch (LifecycleException e) {
             if (Boolean.getBoolean("org.apache.catalina.startup.EXIT_ON_INIT_FAILURE")) {
